@@ -1,8 +1,9 @@
 import utils from "./utils";
-import gsap from "gsap";
+import { gsap } from "gsap";
 
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
+console.log(gsap);
 
 canvas.width = innerWidth;
 canvas.height = innerHeight;
@@ -23,7 +24,7 @@ addEventListener("mousemove", (e) => {
   gsap.to(mouse, {
     x: e.clientX - canvas.width / 2,
     y: e.clientY - canvas.height / 2,
-    duration: 1,
+    duration: 1.2,
   });
 
   angle = Math.atan2(mouse.y, mouse.x);

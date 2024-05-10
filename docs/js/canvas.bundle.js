@@ -6337,6 +6337,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 var canvas = document.querySelector("canvas");
 var c = canvas.getContext("2d");
+console.log(gsap__WEBPACK_IMPORTED_MODULE_1__["gsap"]);
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 var mouse = {
@@ -6352,10 +6353,10 @@ var angle = 0;
 
 // Event Listeners
 addEventListener("mousemove", function (e) {
-  gsap__WEBPACK_IMPORTED_MODULE_1__["default"].to(mouse, {
+  gsap__WEBPACK_IMPORTED_MODULE_1__["gsap"].to(mouse, {
     x: e.clientX - canvas.width / 2,
     y: e.clientY - canvas.height / 2,
-    duration: 1
+    duration: 1.2
   });
   angle = Math.atan2(mouse.y, mouse.x);
   // console.log(angle);
