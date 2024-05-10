@@ -6394,7 +6394,7 @@ var Particle = /*#__PURE__*/function () {
       this.y = center.y + this.distanceFromCenter * Math.sin(angle);
     }
   }]);
-}(); // Implementation
+}(); // Implementation of kught
 var particles;
 function init() {
   particles = [];

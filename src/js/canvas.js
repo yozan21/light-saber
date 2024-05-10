@@ -63,7 +63,7 @@ class Particle {
   }
 }
 
-// Implementation
+// Implementation of kught
 let particles;
 function init() {
   particles = [];
