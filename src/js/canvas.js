@@ -11,7 +11,7 @@ canvas.height = innerHeight;
 const colors = ["#2185C5", "#7ECEFD", "#FFF6E5", "#FF7F66"];
 const glowColor = "rgba(30, 144, 255, 0.5)";
 const handleWidth = 30;
-const handleHeight = 60;
+const handleHeight = 50;
 let angle = 0;
 let active = false;
 const particleCount = 195 + handleHeight;
@@ -75,7 +75,11 @@ class Particle {
   update(on) {
     this.draw();
     if (this.distFromCenter < handleHeight) {
-      this.color = "silver";
+      this.color =
+        (this.distFromCenter > 10 && this.distFromCenter < 25) ||
+        (this.distFromCenter > 40 && this.distFromCenter < 45)
+          ? "#262525"
+          : "#A9A9A9";
       this.radius = 5;
       this.blur = 0;
     }
@@ -107,7 +111,7 @@ function init() {
         x,
         y,
         3,
-        "silver", // i < handleHeight-1 ? "#ffff" : "rgba(30, 144, 255, 0.2)"
+        i < particleCount - 1 ? "#ffff" : "rgba(30, 144, 255, 0.25)",
         i
       )
     );
