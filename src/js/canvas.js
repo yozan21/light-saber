@@ -8,6 +8,14 @@ console.log(gsap);
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 
+const colors = ["#2185C5", "#7ECEFD", "#FFF6E5", "#FF7F66"];
+const glowColor = "rgba(30, 144, 255, 0.5)";
+const handleWidth = 30;
+const handleHeight = 60;
+let angle = 0;
+let active = false;
+const particleCount = 195 + handleHeight;
+
 const mouse = {
   x: innerWidth / 2,
   y: innerHeight / 2,
@@ -16,8 +24,6 @@ const center = {
   x: innerWidth / 2,
   y: innerHeight / 2,
 };
-const colors = ["#2185C5", "#7ECEFD", "#FFF6E5", "#FF7F66"];
-let angle = 0;
 
 // Event Listeners
 addEventListener("mousemove", (e) => {
@@ -30,7 +36,10 @@ addEventListener("mousemove", (e) => {
   angle = Math.atan2(mouse.y, mouse.x);
   // console.log(angle);
 });
-
+addEventListener("click", () => {
+  active = !active;
+  console.log(active);
+});
 addEventListener("resize", () => {
   canvas.width = innerWidth;
   canvas.height = innerHeight;
@@ -40,50 +49,106 @@ addEventListener("resize", () => {
 
 // Objects
 class Particle {
-  constructor(x, y, radius, color, distanceFromCenter) {
+  constructor(x, y, radius, color, distFromCenter) {
     this.x = x;
     this.y = y;
     this.radius = radius;
     this.color = color;
-    this.distanceFromCenter = distanceFromCenter;
+    this.distFromCenter = distFromCenter;
+    this.blur = 5;
+    // this.alpha = 0;
   }
 
   draw() {
+    c.save();
+    // c.globalAlpha = this.alpha;
     c.beginPath();
     c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    c.shadowBlur = this.blur;
+    c.shadowColor = glowColor;
     c.fillStyle = this.color;
     c.fill();
     c.closePath();
+    c.restore();
   }
 
-  update() {
+  update(on) {
     this.draw();
-    this.x = center.x + this.distanceFromCenter * Math.cos(angle);
-    this.y = center.y + this.distanceFromCenter * Math.sin(angle);
+    if (this.distFromCenter < handleHeight) {
+      this.color = "silver";
+      this.radius = 5;
+      this.blur = 0;
+    }
+    // if (on && particles.length < particleCount) {
+    //   particles.push(
+    //     new Particle(center.x, center.y, 3, "#ffff", this.distFromCenter + 1)
+    //   );
+    // }
+    // console.log(particles);
+    this.x = center.x + this.distFromCenter * Math.cos(angle);
+    this.y =
+      center.y + handleHeight / 2 + this.distFromCenter * Math.sin(angle);
   }
 }
 
-// Implementation of kught
+// Implementation
 let particles;
 function init() {
   particles = [];
 
-  for (let i = 0; i < 200; i++) {
-    const x = center.x + i * Math.cos(0);
-    const y = center.y + i * Math.sin(0);
-    particles.push(new Particle(x, y, 5, "#1e90ff", i));
+  for (let i = 0; i < particleCount; i++) {
+    let dist;
+    // console.log(i < handleHeight);
+    i < handleHeight ? (dist = i) : (dist = handleHeight);
+    const x = center.x + dist * Math.cos(0);
+    const y = center.y + handleHeight / 2 + dist * Math.sin(0);
+    particles.push(
+      new Particle(
+        x,
+        y,
+        3,
+        "silver", // i < handleHeight-1 ? "#ffff" : "rgba(30, 144, 255, 0.2)"
+        i
+      )
+    );
   }
 }
 
 // Animation Loop
 function animate() {
   requestAnimationFrame(animate);
-  c.fillStyle = "rgba(0,0,0,0.08)";
+  c.fillStyle = "rgba(0,0,0,0.1)";
   c.fillRect(0, 0, canvas.width, canvas.height);
 
   particles.forEach((particle) => {
-    particle.update();
+    particle.update(active);
   });
+
+  // const handleWidth = 30;
+  // const handleHeight = 200;
+  // const bladeWidth = 10;
+  // const bladeHeight = 300;
+  // const glowColor = "rgba(0,255,255,0.5)"; // Cyan glow
+
+  // // Draw handle (rectangle)
+  // c.fillStyle = "silver";
+  // c.fillRect(
+  //   center.x - handleWidth / 2,
+  //   center.y - handleHeight / 2,
+  //   handleWidth,
+  //   handleHeight
+  // );
+
+  // // Draw blade (glowing effect)
+  // c.shadowBlur = 20;
+  // c.shadowColor = glowColor;
+  // c.fillStyle = glowColor;
+  // c.fillRect(
+  //   center.x - bladeWidth / 2,
+  //   center.y - bladeHeight / 2,
+  //   bladeWidth,
+  //   bladeHeight
+  // );
 }
 
 init();
