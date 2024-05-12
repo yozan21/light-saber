@@ -1,9 +1,12 @@
 import utils from "./utils";
+import * as dat from "dat.gui";
 import { gsap } from "gsap";
+import { Howl, Howler } from "howler";
 
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
-console.log(gsap);
+const gui = new dat.GUI();
+// console.log(sound);
 
 canvas.width = innerWidth;
 canvas.height = innerHeight;
@@ -12,9 +15,10 @@ const colors = ["#2185C5", "#7ECEFD", "#FFF6E5", "#FF7F66"];
 const glowColor = "rgba(30, 144, 255, 0.5)";
 const handleWidth = 30;
 const handleHeight = 50;
-let angle = 0;
+let angle = -Math.PI / 2;
 let active = false;
 const particleCount = 195 + handleHeight;
+let prevAngle = angle;
 
 const mouse = {
   x: innerWidth / 2,
@@ -25,6 +29,31 @@ const center = {
   y: innerHeight / 2,
 };
 
+const sound = {
+  closeMvmtSound: true,
+};
+
+const audio = {
+  On: new Howl({
+    src: "../audio/start.mp3",
+  }),
+  Off: new Howl({
+    src: "../audio/stop-2.mp3",
+  }),
+  LMov: new Howl({
+    src: "../audio/long.mp3",
+  }),
+  MMov: new Howl({
+    src: "../audio/medium.mp3",
+  }),
+  SMov: new Howl({
+    src: "../audio/short.mp3",
+  }),
+};
+
+gui.add(sound, "closeMvmtSound").onChange((a) => {
+  sound.closeMvmtSound = a;
+});
 // Event Listeners
 addEventListener("mousemove", (e) => {
   gsap.to(mouse, {
@@ -34,11 +63,27 @@ addEventListener("mousemove", (e) => {
   });
 
   angle = Math.atan2(mouse.y, mouse.x);
-  // console.log(angle);
+  if (active && sound.closeMvmtSound) {
+    const angDiff = Math.abs(angle - prevAngle);
+    // console.log(angDiff > 0.9);
+    if (angDiff > 0.5 && !audio.LMov.playing()) {
+      audio.LMov.play();
+    } else if (
+      angDiff > 0.05 &&
+      (!audio.MMov.playing() || !audio.LMov.playing())
+    ) {
+      // Howler.stop();
+      audio.MMov.play();
+    }
+    // else if (angDiff > 0.09) audio.SMov.play();
+    prevAngle = angle;
+  }
 });
 addEventListener("click", () => {
   active = !active;
-  console.log(active);
+  if (active) audio.On.play();
+  else audio.Off.play();
+  // console.log(active);
 });
 addEventListener("resize", () => {
   canvas.width = innerWidth;
@@ -73,16 +118,18 @@ class Particle {
   }
 
   update(on) {
-    this.draw();
+    if (on) this.draw();
     if (this.distFromCenter < handleHeight) {
+      this.draw();
       this.color =
         (this.distFromCenter > 10 && this.distFromCenter < 25) ||
         (this.distFromCenter > 40 && this.distFromCenter < 45)
-          ? "#262525"
-          : "#A9A9A9";
+          ? "#333333"
+          : "#D9DADB";
       this.radius = 5;
       this.blur = 0;
     }
+
     // if (on && particles.length < particleCount) {
     //   particles.push(
     //     new Particle(center.x, center.y, 3, "#ffff", this.distFromCenter + 1)
@@ -103,7 +150,7 @@ function init() {
   for (let i = 0; i < particleCount; i++) {
     let dist;
     // console.log(i < handleHeight);
-    i < handleHeight ? (dist = i) : (dist = handleHeight);
+    // i < handleHeight ? (dist = i) : (dist = handleHeight);
     const x = center.x + dist * Math.cos(0);
     const y = center.y + handleHeight / 2 + dist * Math.sin(0);
     particles.push(
@@ -124,35 +171,11 @@ function animate() {
   c.fillStyle = "rgba(0,0,0,0.1)";
   c.fillRect(0, 0, canvas.width, canvas.height);
 
-  particles.forEach((particle) => {
+  particles.forEach((particle, i) => {
+    // if (!active && i < handleHeight) particle.update(active);
+    // else if (active)
     particle.update(active);
   });
-
-  // const handleWidth = 30;
-  // const handleHeight = 200;
-  // const bladeWidth = 10;
-  // const bladeHeight = 300;
-  // const glowColor = "rgba(0,255,255,0.5)"; // Cyan glow
-
-  // // Draw handle (rectangle)
-  // c.fillStyle = "silver";
-  // c.fillRect(
-  //   center.x - handleWidth / 2,
-  //   center.y - handleHeight / 2,
-  //   handleWidth,
-  //   handleHeight
-  // );
-
-  // // Draw blade (glowing effect)
-  // c.shadowBlur = 20;
-  // c.shadowColor = glowColor;
-  // c.fillStyle = glowColor;
-  // c.fillRect(
-  //   center.x - bladeWidth / 2,
-  //   center.y - bladeHeight / 2,
-  //   bladeWidth,
-  //   bladeHeight
-  // );
 }
 
 init();
