@@ -11,9 +11,8 @@ const gui = new dat.GUI();
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 
-const colors = ["#2185C5", "#7ECEFD", "#FFF6E5", "#FF7F66"];
+// const colors = ["#2185C5", "#7ECEFD", "#FFF6E5", "#FF7F66"];
 const glowColor = "rgba(30, 144, 255, 0.5)";
-const handleWidth = 30;
 const handleHeight = 50;
 let angle = -Math.PI / 2;
 let active = false;
@@ -30,7 +29,7 @@ const center = {
 };
 
 const sound = {
-  closeMvmtSound: true,
+  closeMvmtSound: false,
 };
 
 const audio = {
@@ -63,7 +62,7 @@ addEventListener("mousemove", (e) => {
   });
 
   angle = Math.atan2(mouse.y, mouse.x);
-  if (active && sound.closeMvmtSound) {
+  if (active && !sound.closeMvmtSound) {
     const angDiff = Math.abs(angle - prevAngle);
     // console.log(angDiff > 0.9);
     if (angDiff > 0.5 && !audio.LMov.playing()) {

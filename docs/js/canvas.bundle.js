@@ -12150,9 +12150,9 @@ var gui = new dat_gui__WEBPACK_IMPORTED_MODULE_1__.GUI();
 
 canvas.width = innerWidth;
 canvas.height = innerHeight;
-var colors = ["#2185C5", "#7ECEFD", "#FFF6E5", "#FF7F66"];
+
+// const colors = ["#2185C5", "#7ECEFD", "#FFF6E5", "#FF7F66"];
 var glowColor = "rgba(30, 144, 255, 0.5)";
-var handleWidth = 30;
 var handleHeight = 50;
 var angle = -Math.PI / 2;
 var active = false;
@@ -12167,7 +12167,7 @@ var center = {
   y: innerHeight / 2
 };
 var sound = {
-  closeMvmtSound: true
+  closeMvmtSound: false
 };
 var audio = {
   On: new howler__WEBPACK_IMPORTED_MODULE_2__.Howl({
@@ -12197,7 +12197,7 @@ addEventListener("mousemove", function (e) {
     duration: 1.2
   });
   angle = Math.atan2(mouse.y, mouse.x);
-  if (active && sound.closeMvmtSound) {
+  if (active && !sound.closeMvmtSound) {
     var angDiff = Math.abs(angle - prevAngle);
     // console.log(angDiff > 0.9);
     if (angDiff > 0.5 && !audio.LMov.playing()) {
