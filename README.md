@@ -1,21 +1,10 @@
-Canvas Boilerplate is the go-to solution for quickly creating modern canvas pieces using ES6 and webpack.
+# Cool Luke SkyWalker Light Saber
 
-## Getting Started
+Check the link below to see the light saber.😋 Click anywhere on the screen to activate the saber.
+The checkbox on the far right corner is used for disabling the movement sound.
 
-1.  Clone the repo:
+## May The Code Be With You
 
-        git clone https://github.com/christopher4lis/canvas-boilerplate.git
+-Site-Link: [Link]()
 
-2.  Install dependencies:
-
-        yarn
-
-    or
-
-        npm install
-
-3.  Run webpack:
-
-        npm start
-
-Your canvas piece should open up automatically at http://localhost:3000 and you should see 'HTML CANVAS BOILERPLATE' on hover.
+### I totally forgot to mention you can clone the master branch and show some creativity to it.
