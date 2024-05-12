@@ -1,6 +1,6 @@
 # Cool Luke SkyWalker Light Saber
 
-Check the link below to see the light saber.😋 Click anywhere on the screen to activate the saber.
+Check the link below to see the light saber.😋 Click anywhere on the screen to activate/deactivate the saber.
 The checkbox on the far right corner is used for disabling the movement sound.
 
 ## May The Code Be With You
