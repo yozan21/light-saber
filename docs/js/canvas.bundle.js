@@ -12171,19 +12171,19 @@ var sound = {
 };
 var audio = {
   On: new howler__WEBPACK_IMPORTED_MODULE_2__.Howl({
-    src: "../audio/start.mp3"
+    src: "./audio/start.mp3"
   }),
   Off: new howler__WEBPACK_IMPORTED_MODULE_2__.Howl({
-    src: "../audio/stop-2.mp3"
+    src: "./audio/stop-2.mp3"
   }),
   LMov: new howler__WEBPACK_IMPORTED_MODULE_2__.Howl({
-    src: "../audio/long.mp3"
+    src: "./audio/long.mp3"
   }),
   MMov: new howler__WEBPACK_IMPORTED_MODULE_2__.Howl({
-    src: "../audio/medium.mp3"
+    src: "./audio/medium.mp3"
   }),
   SMov: new howler__WEBPACK_IMPORTED_MODULE_2__.Howl({
-    src: "../audio/short.mp3"
+    src: "./audio/short.mp3"
   })
 };
 gui.add(sound, "closeMvmtSound").onChange(function (a) {
